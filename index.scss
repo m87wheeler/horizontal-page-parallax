@@ -1,0 +1,112 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+$width: 100vw;
+$height: 100vh;
+$pages: 3;
+
+.viewport {
+  position: relative;
+  width: $width;
+  height: $height;
+  overflow: hidden;
+}
+
+.parallax-parent {
+  position: relative;
+  top: $height;
+  left: 0;
+  width: $height;
+  height: $width;
+  transform-origin: top left;
+  transform: rotate(-90deg);
+  overflow-x: hidden;
+  overflow-y: scroll;
+  perspective-origin: 50% 50% 0;
+  perspective: 3px;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+.background-colors {
+  position: relative;
+  width: $height;
+  height: $width * $pages;
+  background: rgb(255, 252, 0);
+  background: linear-gradient(
+    0deg,
+    rgba(255, 252, 0, 1) 0%,
+    rgba(255, 252, 0, 1) 25%,
+    rgba(34, 149, 18, 1) 50%,
+    rgba(255, 0, 0, 1) 100%
+  );
+}
+
+.parallax-child-container {
+  position: absolute;
+  width: $height;
+  height: $width;
+  text-align: center;
+  overflow: hidden;
+  z-index: 1;
+
+  @for $i from 0 to $pages {
+    &:nth-of-type(#{$i + 1}) {
+      top: $i * $width;
+    }
+  }
+}
+
+//...
+
+.parallax-child {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: $width;
+  padding: 0 ($width * 0.3);
+  transform-origin: 50% 50% 0;
+  transform: translateX(-50%) translateY(-50%) rotate(90deg);
+
+  //...
+
+  h1 {
+    font-size: 5rem;
+    font-family: sans-serif;
+    font-weight: 700;
+    color: whitesmoke;
+    transition: transform 3s ease-in-out, color 1s ease-in-out;
+    cursor: pointer;
+
+    &:hover {
+      transform: scale(1.2);
+      color: black;
+    }
+  }
+}
+
+.parallax-background {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: $width * $pages;
+  height: $height;
+  transform: translateX(-50%) translateY(180%) translateZ(-8px) scale(2.5)
+    rotate(90deg);
+  z-index: 0;
+
+  h1 {
+    height: $height;
+    line-height: $height;
+    font-family: sans-serif;
+    font-size: 10rem;
+    text-align: center;
+    -webkit-text-stroke: 2px #ccc;
+    -webkit-text-fill-color: transparent;
+  }
+}
